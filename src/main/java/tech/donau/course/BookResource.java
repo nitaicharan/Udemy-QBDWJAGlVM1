@@ -1,6 +1,6 @@
 package tech.donau.course;
 
-import io.netty.util.internal.StringUtil;
+import tech.donau.course.data.Book;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -10,35 +10,44 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.Collection;
 
 @Path("/book")
 public class BookResource {
 
-    private static ArrayList<String> books = new ArrayList<>();
+    private static ArrayList<Book> books = new ArrayList<>();
 
     static {
-        books.add("The Freelancer's bible");
+        books.add(new Book("The Freelancer's bible", "IDK"));
     }
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getBooks() {
-        return StringUtil.join(",", books).toString();
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getBooks() {
+        return Response.status(202)
+                .entity(books)
+                .build();
+
+//        return Response.ok(books).build();
     }
 
 
     @POST
-    @Produces(MediaType.TEXT_PLAIN)
-    public String addBook(String book) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addBook(Book book) {
+        if(books.size() > 5) {
+            return Response.status(400).entity("No more than 5 books allowed").build();
+        }
         books.add(book);
-        return book;
+        return Response.ok(book).build();
     }
 
     @PUT
     @Path("/{id}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String updateBook(@PathParam("id") Integer index, String book) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Book updateBook(@PathParam("id") Integer index, Book book) {
         books.remove((int) index);
         books.add(index, book);
         return book;
@@ -46,8 +55,8 @@ public class BookResource {
 
     @DELETE
     @Path("/{id}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String deleteBook(@PathParam("id") Integer index) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Book deleteBook(@PathParam("id") Integer index) {
         return books.remove((int) index);
     }
 }
