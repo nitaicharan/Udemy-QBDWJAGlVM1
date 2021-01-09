@@ -9,7 +9,7 @@
 <!--[![](Udemy-QBDWJAGlVM1.png)](https://nitaicharan.github.io/Udemy-QBDWJAGlVM1/)-->
 <a href="https://nitaicharan.github.io/Udemy-QBDWJAGlVM1">
   <p align="center">
-    <img style="height: 100px" src="PREVIEW.png">
+    <img style="height: 100px" src="PREVIEW.jpg">
   </p>
 </a>
 
